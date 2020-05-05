@@ -1,0 +1,28 @@
+body{
+    background-color: #dfe6e9;
+    padding: auto;
+  }
+.ist_div {
+    width:80%;
+    height:80%;
+    margin: 50px;
+    padding: 30px;
+    border-radius: 15px;
+    background-color: white;
+}
+#main_heading {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
+
+.button {
+  
+    color: #227093;
+    width: 100%;
+    height:35px;
+    font-size: 20px;
+    border: 1px solid #227093;
+    border-radius: 2px;
+    background-color: #dfe6e9;
+    margin-top:20px;
+    transition-duration:0.5s;
+  }
