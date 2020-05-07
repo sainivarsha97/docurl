@@ -80,7 +80,7 @@ def ContentView(request,username):
     try:
         password=request.session['password']
         if password:
-            ask_password=False
+            ask_password=True ## False
     except:
         ask_password=True
 
@@ -91,7 +91,7 @@ def ContentView(request,username):
         if content:
             data=content.content
             title=content.title
-            content='{% extends "parent_page.html" %}{% block content %}<center><h1 id="main_heading">'+title+'</h1></center>'+data+'{% endblock %}'
+            content='{% extends "base.html" %}{% block content %}<center><h1 id="main_heading">'+title+'</h1></center>'+data+'{% endblock %}'
             with open("templates/page.html", "w") as file:
                 file.write(content)
             file.close()

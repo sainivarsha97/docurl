@@ -82,8 +82,16 @@ body{
   padding: 10px;
   border: 1px solid #ccc;
   height: 45px;
+  margin-bottom:20px;
 }
 
+.publisharea input[type=password] {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  height: 45px;
+  margin-bottom:20px;
+}
 
 .inputarea textarea {
   width: 100%;
@@ -101,25 +109,19 @@ body{
 	position:relative;
 	display:table;
 	border-collapse:separate;
-  width:100%;
+    width:100%;
 }
 
 .input-group-addon {
-	padding:6px 12px;
+    width: 200px;
 	font-size:14px;
 	text-align:center;
 	display:table-cell;
 	background:#eee;
-	border:1px solid #ccc;
+    border:1px solid #ccc;
 }
 
-.publisharea input[type=password] {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  height: 45px;
-  margin-top: 10px;
-}
+
 
 .button1 {
   

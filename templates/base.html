@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocURL.me - Create Shareable Notes</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
+    <script type="text/javascript" src="{% static 'ckeditor/ckeditor.js' %}"></script>
+</head>
+  
+<body>
+
+	<div class="header">
+		<h1>DocURL.me</h1>
+	</div>
+	<form method="POST" name="myForm" action=""  onsubmit="return validateForm()">
+    {% csrf_token %}
+    <div class="container">
+    
+      <div class="contentarea">
+        <div class="inputarea">
+                   
+          <div class="content">
+            
+            {% block content%}
+            {% endblock %}
+            
+          </div>
+        </div>
+      </div>
+      
+      <div class="options">
+        <div class="publisharea">
+            <form method="POST" action="" target="blank">
+                {%csrf_token%}
+                {% if ask_password %}
+                    <div class="input-group">
+                    <input id="password" type="password" name="edit_password" placeholder="Enter Edit Password" required>              
+                    <input type="checkbox" onclick="show_password()">Show Password
+                </div>
+                {% endif %}
+                <button class="button1" name="edit" type="submit" >Edit Content</button>
+            </form>
+            <form method="POST" action="" >
+                {%csrf_token%}
+                <button class="button1" name="download" type="submit" >Save as PDF</button>
+            </form>
+        </div>
+        <div class="publisharea">
+            <input type="text" id="firstTextArea" readonly>   
+            <input type="button" onclick="copyLink('firstTextArea')" class="button1" value="Copy to Share" readonly>
+            <p id="demo"></p>
+        </div>        
+      </div>
+    </div>
+  </form>
+  <div class="footer">
+
+    
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+        <a href="#">Support</a>
+        
+  </div>
+
+<script type="text/javascript">            
+    window.onload=function()
+    {
+    document.getElementById('firstTextArea').value = window.location.href;
+    }
+
+</script>
+
+<script>
+    function copyLink(id){
+    var copyText = document.getElementById(id);
+    copyText.select();
+    document.execCommand("copy");
+
+    var str = "Link Copied ! Also Share Password to Allow Editing.";
+    var result = str.blink();
+    document.getElementById("demo").innerHTML = result;
+    }
+</script>
+
+<script>
+    function show_password() {
+    var x = document.getElementById("password");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  }
+  </script>
+
+</body>
+</html>
+			
+			
+			
