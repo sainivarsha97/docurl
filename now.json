@@ -1,0 +1,13 @@
+{
+    "version": 2,
+    "name": "docurl",
+    "builds": [{
+        "src": "docurl/wsgi.py",
+        "use": "@ardnt/now-python-wsgi",
+        "config": { "maxLambdaSize": "15mb" }
+    }],
+    "routes": [{
+        "src": "/(.*)",
+        "dest": "docurl/wsgi.py"
+    }]
+}
