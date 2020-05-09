@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DocURL.me - Create Shareable Notes</title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'styles.css' %}" />
     <script type="text/javascript" src="{% static 'ckeditor/ckeditor.js' %}"></script>
 </head>
   
@@ -37,6 +37,9 @@
                 {% if ask_password %}
                     <div class="input-group">
                     <input id="password" type="password" name="edit_password" placeholder="Enter Edit Password" required>              
+                    {% if wrong_password %}
+                      <p style="color: red;">Wrong Password !!!</p>
+                    {% endif %}
                     <input type="checkbox" onclick="show_password()">Show Password
                 </div>
                 {% endif %}
@@ -50,7 +53,7 @@
         <div class="publisharea">
             <input type="text" id="firstTextArea" readonly>   
             <input type="button" onclick="copyLink('firstTextArea')" class="button1" value="Copy to Share" readonly>
-            <p id="demo"></p>
+            <p style="color: green;" id="demo"></p>
         </div>        
       </div>
     </div>

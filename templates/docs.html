@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DocURL.me - Create Shareable Notes</title>
     {% load static %}
-    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'stylesheet.css' %}" />
     <script type="text/javascript" src="{% static 'ckeditor/ckeditor.js' %}"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -23,11 +23,15 @@
         <div class="inputarea">
           
           <div class="title">
-            <input type="text" name="title" value="{{title}}" placeholder="Title" required>
+            <input class="textinput" type="text" name="title" value="{{title}}" placeholder="Title" required>
           </div>
-          
+          <p class="note">Minimum 300 Characters are Required to Publish Your Document .</p>
           <div class="content">
-            <textarea rows="15" cols="30" name="content" value="{{data}}"  id="editor" required></textarea>
+            {% if not_data %}
+            <p style="color: Red;">Content Too Small.</p>
+            {% endif %}
+            <textarea rows="15" cols="30" name="content" value="{{data}}"  id="editor" ></textarea>
+            
           </div>
         </div>
       </div>
@@ -35,15 +39,22 @@
       <div class="options">
         <div class="publisharea">
           {% if not no_custom_url %}
+            <p class="note">Spaces and Punctuation Marks are not Allowed in Custom Url .</p>
             <div class="input-group">
-              <div class="input-group-addon">https:/ /www.docurl.me/</div>
-                <input type="text" name="url" placeholder="Custom URL" required>              
+              <div class="input-group-addon">docurl.me/</div>
+                <input type="text" name="url" placeholder="Custom URL" value="{{url}}" required>              
             </div>
+          {% endif %}
+          {% if url_error %}
+            <p style="color: Red;">This URL is not Allowed .</p>
           {% endif %}
           <div>
             <input id="password" type="password" name="edit_password" value="{{password}}" placeholder="Password For Future Edit" required>
             <input type="checkbox" onclick="show_password()">Show Password
           </div>
+          {% if password_error %}
+            <p style="color: Red;">Password too Long .</p>
+          {% endif %}
           <div style="margin-top: 20px; width:100% ;" class="g-recaptcha" data-sitekey="6LfLtfIUAAAAAHLBQZUYYKEaGpGm5MJGRxZGGhLb"></div>
           <input type="hidden" name="recaptcha" data-rule-recaptcha="true">
           <button class="button1" type="submit" >Publish</button>
@@ -53,8 +64,6 @@
     </div>
   </form>
 
-  
-	
 <div class="footer">
     <a href="#">Home</a>
     <a href="#">About</a>
@@ -72,7 +81,7 @@
   }
 }
 </script>
-<!--
+
 <script>
   function validateForm() {	
       var recaptcha = document.forms["myForm"]["g-recaptcha-response"].value;
@@ -82,7 +91,7 @@
       }
   }
 </script>
--->
+
 <script>
     CKEDITOR.replace('editor');
 </script>

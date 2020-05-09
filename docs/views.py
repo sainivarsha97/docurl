@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from django.views.generic import View
 from docs.utils import render_to_pdf 
 import socket
+from bs4 import BeautifulSoup
 
 def GeneratePDF(request,username):
     """to generate pdf""" 
@@ -24,6 +25,8 @@ def GeneratePDF(request,username):
     return HttpResponse("Not found")
 
 def DocumentView(request):
+    """To Upload document"""
+
     template_name='docs.html'
 
     if request.method=="POST":
@@ -36,18 +39,36 @@ def DocumentView(request):
 
         hostname = socket.gethostname()
         ip_address = socket.gethostbyname(hostname)
+       
+        all_punctuation=list(string.punctuation)+[" "]
+        url_not_allowed=any([True for x in url if x in all_punctuation])
+        
+        soup = BeautifulSoup(content,'html.parser').text
 
-        if url not in all_urls:
-            Content.objects.create(content=content,url=url,title=title,password=password,ip=ip_address)
+        if len(soup)<300:
+            '''content should be greater tha 300 characters'''
 
-            request.session['password']=password
+            return render(request,template_name,{"not_data":True,"url":url,"password":password,"title":title})
+        
+        if url in all_urls or url_not_allowed:
+            '''url should be unique and follow all limitations'''
 
-            return redirect('content',username=url)
+            return render(request,template_name,{"data":content,"url_error":True,"password":password,"title":title})
+        
+        if len(password)>20 :
+            '''pass can be 1-20'''
 
-        return render(request,template_name,{"data":content,"url_error":True})
+            return render(request,template_name,{"data":content,"password_error":True,"url":url,"title":title})
+
+        Content.objects.create(content=content,url=url,title=title,password=password,ip=ip_address)
+        request.session['password']=password
+        return redirect('content',username=url)
+
     return render(request,template_name)
 
 def EditView(request,username):
+    """To Edit Content"""
+
     template_name='docs.html'
 
     if request.method=="GET":
@@ -75,12 +96,13 @@ def EditView(request,username):
 
 
 def ContentView(request,username):
+    """View Content """
     template_name='page.html'
 
     try:
         password=request.session['password']
         if password:
-            ask_password=True ## False
+            ask_password=False
     except:
         ask_password=True
 
@@ -103,16 +125,21 @@ def ContentView(request,username):
     
     if request.method=="POST":  
         if request.POST.get("download",False)=='':
+            """to download as pdf"""
+
             url=username+"/pdf"
             return redirect(url)
         
-        elif request.POST.get("edit_password",False)=='':
+        elif request.POST.get("edit_password",False):
             edit_password=request.POST['edit_password']
 
             if content.password==edit_password:
+                """if pass is correct"""
+                
                 url=username+"/edit"
                 return redirect(url)
             else:
+                '''wrong pass'''
                 return render(request,template_name,{"wrong_password":True,'ask_password':ask_password})
                 
         elif request.POST.get("edit",False)=='':

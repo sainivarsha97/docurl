@@ -82,15 +82,15 @@ body{
   padding: 10px;
   border: 1px solid #ccc;
   height: 45px;
-  margin-bottom:20px;
+  
 }
 
-.publisharea input[type=password] {
+.publisharea #password {
   width: 100%;
   padding: 10px;
   border: 1px solid #ccc;
   height: 45px;
-  margin-bottom:20px;
+    margin-top: 10px;
 }
 
 .inputarea textarea {
@@ -178,5 +178,5 @@ body{
 .note {
   background-color:#dfe6e9;
   padding: 5px;
-  margin: 2px auto;
+  margin: 2px auto 10px auto;
 }
